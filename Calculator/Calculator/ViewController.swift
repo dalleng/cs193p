@@ -43,6 +43,12 @@ class ViewController: UIViewController {
                 performOperation { $1 - $0 }
             case "√":
                 performOperation { sqrt($0) }
+            case "sin":
+                performOperation { sin($0) }
+            case "sin":
+                performOperation { cos($0) }
+            case "π":
+                addConstantAsOperand(M_PI)
         default: break
         }
     }
@@ -61,11 +67,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func addConstantAsOperand(constant: Double) {
+        displayValue = constant
+        enter()
+    }
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         
         if userIsInTheMiddleOfTypingANumber {
-            display.text = display.text! + digit
+            let hasFloatingPoint = display.text!.rangeOfString(".") != nil
+            
+            if !hasFloatingPoint || digit != "." {
+                display.text = display.text! + digit
+            }
+            
         } else {
             display.text = digit
             userIsInTheMiddleOfTypingANumber = true
