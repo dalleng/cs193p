@@ -13,8 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var history: UILabel!
 
-    var operands = [Double]()
     var userIsInTheMiddleOfTypingANumber: Bool = false
+    var brain = CalculatorBrain()
 
     var displayValue: Double {
         get {
@@ -27,51 +27,31 @@ class ViewController: UIViewController {
     }
 
     @IBAction func operate(sender: UIButton) {
-        let operation = sender.currentTitle!
         
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
         
-        appendToHistory(operation)
-        
-        switch operation {
-            case "×":
-                performOperation { $0 * $1 }
-            case "÷":
-                performOperation { $1 / $0 }
-            case "+":
-                performOperation { $0 + $1 }
-            case "−":
-                performOperation { $1 - $0 }
-            case "√":
-                performOperation { sqrt($0) }
-            case "sin":
-                performOperation { sin($0) }
-            case "sin":
-                performOperation { cos($0) }
-            case "π":
-                addConstantAsOperand(M_PI)
-            case "C":
-                display.text = "0"
-                history.text = nil
-                userIsInTheMiddleOfTypingANumber = false
-                operands = []
-        default: break
-        }
-    }
-    
-    func performOperation(operation: (Double, Double) -> Double) {
-        if operands.count >= 2 {
-            displayValue = operation(operands.removeLast(), operands.removeLast())
-            enter()
-        }
-    }
-    
-    func performOperation(operation: Double -> Double) {
-        if operands.count >= 1 {
-            displayValue = operation(operands.removeLast())
-            enter()
+        if let operation = sender.currentTitle {
+            appendToHistory(operation)
+            
+            switch operation {
+                case "π":
+                    addConstantAsOperand(M_PI)
+                    return
+                case "C":
+                    display.text = "0"
+                    history.text = nil
+                    userIsInTheMiddleOfTypingANumber = false
+                    return
+            default: break
+            }
+            
+            if let result = brain.performOperation(operation) {
+                displayValue = result
+            } else {
+                displayValue = 0
+            }
         }
     }
     
@@ -128,9 +108,14 @@ class ViewController: UIViewController {
 
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        operands.append(displayValue)
+        
+        if let result = brain.pushOperand(displayValue) {
+            displayValue = result
+        } else {
+            displayValue = 0
+        }
+        
         appendToHistory(display.text!)
-        println("\(operands)")
     }
 }
 
