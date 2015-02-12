@@ -16,13 +16,17 @@ class ViewController: UIViewController {
     var userIsInTheMiddleOfTypingANumber: Bool = false
     var brain = CalculatorBrain()
 
-    var displayValue: Double {
+    var displayValue: Double? {
         get {
             return (display.text! as NSString).doubleValue
         }
         
         set {
-            display.text = "\(newValue)"
+            if newValue != nil {
+                display.text = "\(newValue!)"
+            } else {
+                display.text = " "
+            }
         }
     }
 
@@ -33,38 +37,22 @@ class ViewController: UIViewController {
         }
         
         if let operation = sender.currentTitle {
-            appendToHistory(operation)
-            
-            switch operation {
-                case "π":
-                    addConstantAsOperand(M_PI)
-                    return
-                case "C":
+            if operation == "C" {
                     display.text = "0"
-                    history.text = nil
+                    history.text = " "
                     userIsInTheMiddleOfTypingANumber = false
-                    return
-            default: break
-            }
-            
-            if let result = brain.performOperation(operation) {
-                displayValue = result
+                    brain = CalculatorBrain()
             } else {
-                displayValue = 0
+                if let result = brain.performOperation(operation) {
+                    displayValue = result
+                } else {
+                    displayValue = 0
+                    history.text = " "
+                }
+                
+                history.text = "\(brain) ="
+                println("\(brain)")
             }
-        }
-    }
-    
-    func addConstantAsOperand(constant: Double) {
-        displayValue = constant
-        enter()
-    }
-    
-    func appendToHistory(item: String) {
-        if history.text == nil {
-            history.text = item
-        } else {
-            history.text = history.text! + " \(item)"
         }
     }
     
@@ -106,16 +94,37 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func pushVariable(sender: UIButton) {
+        if let result = brain.pushOperand(sender.currentTitle!) {
+            displayValue = result
+            history.text = "\(brain)"
+            userIsInTheMiddleOfTypingANumber = false
+        }
+    }
+    
+    @IBAction func setVariableValue(sender: UIButton) {
+        if let value = displayValue {
+            brain.variableValues["M"] = value
+            if let result = brain.evaluate() {
+                displayValue = result
+            }
+            userIsInTheMiddleOfTypingANumber = false
+        }
+    }
+    
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         
-        if let result = brain.pushOperand(displayValue) {
-            displayValue = result
-        } else {
-            displayValue = 0
+        if let operand = displayValue {
+            if let result = brain.pushOperand(operand) {
+                displayValue = result
+                history.text = "\(brain) ="
+                println("\(brain)")
+            } else {
+                displayValue = 0
+                history.text = " "
+            }
         }
-        
-        appendToHistory(display.text!)
     }
 }
 
