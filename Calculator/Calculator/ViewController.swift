@@ -46,7 +46,7 @@ class ViewController: UIViewController {
                 if let result = brain.performOperation(operation) {
                     displayValue = result
                 } else {
-                    displayValue = 0
+                    displayValue = nil
                     history.text = " "
                 }
                 
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func deleteLastDigit() {
+    @IBAction func deleteUndo() {
         if userIsInTheMiddleOfTypingANumber {
             if countElements(display.text!) > 1 {
                 display.text! = dropLast(display.text!)
@@ -75,6 +75,10 @@ class ViewController: UIViewController {
                 display.text! = "0"
                 userIsInTheMiddleOfTypingANumber = false;
             }
+        } else {
+            brain.removeLastOp()
+            displayValue = brain.evaluate()
+            history.text = "\(brain)"
         }
     }
     

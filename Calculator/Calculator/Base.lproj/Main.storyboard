@@ -246,7 +246,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="deleteLastDigit" destination="BYZ-38-t0r" eventType="touchUpInside" id="hAt-kd-22p"/>
+                                    <action selector="deleteUndo" destination="BYZ-38-t0r" eventType="touchUpInside" id="Csd-n3-Z3H"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ghh-TV-IPs">

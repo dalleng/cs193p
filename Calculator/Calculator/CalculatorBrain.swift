@@ -19,7 +19,6 @@ class CalculatorBrain: Printable {
         
         var description: String {
             switch self {
-            
             case .Operand(let operand):
                 return "\(operand)"
             
@@ -173,6 +172,12 @@ class CalculatorBrain: Printable {
     func pushOperand(symbol: String) -> Double? {
         opStack.append(Op.VariableOperand(symbol))
         return evaluate()
+    }
+    
+    func removeLastOp() {
+        if !opStack.isEmpty {
+            opStack.removeLast()
+        }
     }
     
     func performOperation(symbol: String) -> Double? {
