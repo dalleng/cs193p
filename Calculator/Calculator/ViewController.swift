@@ -16,16 +16,27 @@ class ViewController: UIViewController {
     var userIsInTheMiddleOfTypingANumber: Bool = false
     var brain = CalculatorBrain()
 
-    var displayValue: Double? {
+    var displayValue: (result: Double?, error: String?) {
         get {
-            return (display.text! as NSString).doubleValue
+            let doubleValue = NSNumberFormatter().numberFromString(display.text!)?.doubleValue
+            if doubleValue != nil {
+                return (doubleValue, nil)
+            } else {
+                return (nil, display.text!)
+            }
         }
         
         set {
-            if newValue != nil {
-                display.text = "\(newValue!)"
+            let (result, errorStr) = newValue
+            
+            if (errorStr != nil) {
+                display.text = errorStr
             } else {
-                display.text = " "
+                if result != nil {
+                    display.text = "\(result!)"
+                } else {
+                    display.text = " "
+                }
             }
         }
     }
@@ -43,13 +54,7 @@ class ViewController: UIViewController {
                     userIsInTheMiddleOfTypingANumber = false
                     brain = CalculatorBrain()
             } else {
-                if let result = brain.performOperation(operation) {
-                    displayValue = result
-                } else {
-                    displayValue = nil
-                    history.text = " "
-                }
-                
+                displayValue = brain.performOperation(operation)
                 history.text = "\(brain) ="
                 println("\(brain)")
             }
@@ -99,35 +104,28 @@ class ViewController: UIViewController {
     }
 
     @IBAction func pushVariable(sender: UIButton) {
-        if let result = brain.pushOperand(sender.currentTitle!) {
-            displayValue = result
+            displayValue = brain.pushOperand(sender.currentTitle!)
             history.text = "\(brain)"
             userIsInTheMiddleOfTypingANumber = false
-        }
     }
     
     @IBAction func setVariableValue(sender: UIButton) {
-        if let value = displayValue {
+        let (value, _) = displayValue
+        
+        if (value != nil) {
             brain.variableValues["M"] = value
-            if let result = brain.evaluate() {
-                displayValue = result
-            }
+            displayValue = brain.evaluate()
             userIsInTheMiddleOfTypingANumber = false
         }
     }
     
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
-        
-        if let operand = displayValue {
-            if let result = brain.pushOperand(operand) {
-                displayValue = result
-                history.text = "\(brain) ="
-                println("\(brain)")
-            } else {
-                displayValue = 0
-                history.text = " "
-            }
+        let (operand, _) = displayValue
+        if operand != nil {
+            displayValue = brain.pushOperand(operand!)
+            history.text = "\(brain) ="
+            println("\(brain)")
         }
     }
 }
