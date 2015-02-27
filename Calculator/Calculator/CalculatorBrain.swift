@@ -49,6 +49,27 @@ class CalculatorBrain: Printable {
     
     var variableValues = [String: Double]()
     
+    typealias PropertyList = AnyObject
+    
+    var program: AnyObject {
+        get {
+            return opStack.map { $0.description }
+        }
+        
+        set {
+            if let opSymbols = newValue as? [String] {
+                var newOpStack = [Op]()
+                for opSymbol in opSymbols {
+                    if let operation = knownOps[opSymbol] {
+                        newOpStack.append(operation)
+                    } else if let operand = NSNumberFormatter().numberFromString(opSymbol)?.doubleValue {
+                        newOpStack.append(.Operand(operand))
+                    }
+                }
+            }
+        }
+    }
+    
     var description: String {
         var stackCopy = opStack
         var expressions = [String]()

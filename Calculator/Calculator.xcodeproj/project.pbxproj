@@ -14,6 +14,8 @@
 		CE015D441A7E662B007D022C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE015D421A7E662B007D022C /* LaunchScreen.xib */; };
 		CE015D501A7E662B007D022C /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE015D4F1A7E662B007D022C /* CalculatorTests.swift */; };
 		CE36574A1A8ACC8E001F3BEC /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3657491A8ACC8E001F3BEC /* CalculatorBrain.swift */; };
+		CECEA5F21AA12049005CFFD9 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEA5F11AA12049005CFFD9 /* GraphViewController.swift */; };
+		CECEA5F41AA1207F005CFFD9 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEA5F31AA1207F005CFFD9 /* GraphView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		CE015D4E1A7E662B007D022C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE015D4F1A7E662B007D022C /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
 		CE3657491A8ACC8E001F3BEC /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
+		CECEA5F11AA12049005CFFD9 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		CECEA5F31AA1207F005CFFD9 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 			children = (
 				CE3657491A8ACC8E001F3BEC /* CalculatorBrain.swift */,
 				CE015D3B1A7E662B007D022C /* CalculatorViewController.swift */,
+				CECEA5F11AA12049005CFFD9 /* GraphViewController.swift */,
+				CECEA5F31AA1207F005CFFD9 /* GraphView.swift */,
 				CE015D3D1A7E662B007D022C /* Main.storyboard */,
 				CE015D371A7E662B007D022C /* Supporting Files */,
 			);
@@ -216,7 +222,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CECEA5F41AA1207F005CFFD9 /* GraphView.swift in Sources */,
 				CE36574A1A8ACC8E001F3BEC /* CalculatorBrain.swift in Sources */,
+				CECEA5F21AA12049005CFFD9 /* GraphViewController.swift in Sources */,
 				CE015D3C1A7E662B007D022C /* CalculatorViewController.swift in Sources */,
 				CE015D3A1A7E662B007D022C /* AppDelegate.swift in Sources */,
 			);
