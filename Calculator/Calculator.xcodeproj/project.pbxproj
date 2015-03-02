@@ -16,6 +16,7 @@
 		CE36574A1A8ACC8E001F3BEC /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3657491A8ACC8E001F3BEC /* CalculatorBrain.swift */; };
 		CECEA5F21AA12049005CFFD9 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEA5F11AA12049005CFFD9 /* GraphViewController.swift */; };
 		CECEA5F41AA1207F005CFFD9 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEA5F31AA1207F005CFFD9 /* GraphView.swift */; };
+		CECEA5F61AA3938C005CFFD9 /* AxesDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECEA5F51AA3938C005CFFD9 /* AxesDrawer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		CE3657491A8ACC8E001F3BEC /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 		CECEA5F11AA12049005CFFD9 /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		CECEA5F31AA1207F005CFFD9 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		CECEA5F51AA3938C005CFFD9 /* AxesDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxesDrawer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				CE015D3B1A7E662B007D022C /* CalculatorViewController.swift */,
 				CECEA5F11AA12049005CFFD9 /* GraphViewController.swift */,
 				CECEA5F31AA1207F005CFFD9 /* GraphView.swift */,
+				CECEA5F51AA3938C005CFFD9 /* AxesDrawer.swift */,
 				CE015D3D1A7E662B007D022C /* Main.storyboard */,
 				CE015D371A7E662B007D022C /* Supporting Files */,
 			);
@@ -227,6 +230,7 @@
 				CECEA5F21AA12049005CFFD9 /* GraphViewController.swift in Sources */,
 				CE015D3C1A7E662B007D022C /* CalculatorViewController.swift in Sources */,
 				CE015D3A1A7E662B007D022C /* AppDelegate.swift in Sources */,
+				CECEA5F61AA3938C005CFFD9 /* AxesDrawer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
