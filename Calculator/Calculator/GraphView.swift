@@ -19,10 +19,19 @@ class GraphView: UIView {
     weak var dataSource: GraphViewDataSource?
     
     private var origin: CGPoint? {
+        willSet {
+            if origin != nil && newValue != nil {
+                originDelta += (newValue! - origin!)
+            }
+        }
+        
         didSet {
             self.setNeedsDisplay()
         }
     }
+    
+    private var path: UIBezierPath?
+    private var originDelta = CGPointZero
     
     @IBInspectable
     private var scale: CGFloat = 50.0 {
@@ -39,21 +48,53 @@ class GraphView: UIView {
     }
     
     private func plotFunction() {
-        let path = UIBezierPath()        
-        let maxWidthPixels = Int(self.bounds.width * self.contentScaleFactor)
+        var maxWidthPixels = Int(self.bounds.width * self.contentScaleFactor)
         
-        for var i = 0; i <= maxWidthPixels; i++ {
+        if let savedPath = path {
+            println("originDelta \(originDelta)")
+            let (dx, dy) = (originDelta.x, originDelta.y)
+            
+            savedPath.applyTransform(CGAffineTransformMakeTranslation(dx, dy))
+            
+            if dx > 0 {
+                savedPath.appendPath(buildPath(fromPixelInX: 0, toPixel: Int(dx * self.contentScaleFactor)))
+            } else {
+                let start = Int((self.bounds.width + dx) * self.contentScaleFactor)
+                let end = Int(self.bounds.width * self.contentScaleFactor)
+                savedPath.appendPath(buildPath(fromPixelInX: start, toPixel: end))
+            }
+            
+            savedPath.stroke()
+            
+        } else {
+            path = buildPath(fromPixelInX: 0, toPixel: maxWidthPixels)
+            path?.stroke()
+        }
+        
+        originDelta = CGPointZero
+    }
+    
+    private func buildPath(#fromPixelInX: Int, toPixel: Int) -> UIBezierPath {
+        let path = UIBezierPath()
+        var initialPoint = true
+
+        for var i = fromPixelInX; i <= toPixel; i++ {
             let x = (CGFloat(i) / self.contentScaleFactor - origin!.x) / scale
             if let y = self.dataSource?.yCoordinateForX(x) {
-                println("x:\(x) y:\(y)")
                 var point = CGPointZero
                 point.x = CGFloat(i) / self.contentScaleFactor
                 point.y = origin!.y - (y * scale)
-                path.addLineToPoint(point)
-                path.moveToPoint(point)
+                if initialPoint {
+                    path.moveToPoint(point)
+                    initialPoint = false
+                } else {
+                    path.addLineToPoint(point)
+                    path.moveToPoint(point)
+                }
             }
-            path.stroke()
         }
+        
+        return path
     }
     
     func changeOrigin(gesture: UITapGestureRecognizer) {
@@ -75,6 +116,7 @@ class GraphView: UIView {
         if gesture.state == .Changed {
             scale *= gesture.scale
             gesture.scale = 1.0
+            path = nil
         }
     }
 
@@ -84,6 +126,15 @@ func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
 
+func - (left: CGPoint, right: CGPoint) -> CGPoint {
+    return CGPoint(x: left.x - right.x, y: left.y - right.y)
+}
+
 func += (inout left: CGPoint, right: CGPoint) {
     left = left + right
 }
+
+func -= (inout left: CGPoint, right: CGPoint) {
+    left = left - right
+}
+

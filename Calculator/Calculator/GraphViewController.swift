@@ -46,4 +46,5 @@ class GraphViewController: UIViewController, GraphViewDataSource {
         let (result, _) = brain.evaluate()
         return result != nil ? CGFloat(result!) : nil
     }
+    
 }
