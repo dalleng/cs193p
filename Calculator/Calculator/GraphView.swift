@@ -18,7 +18,7 @@ class GraphView: UIView {
     var axesDrawer = AxesDrawer()
     weak var dataSource: GraphViewDataSource?
     
-    private var origin: CGPoint? {
+    var origin: CGPoint? {
         willSet {
             if origin != nil && newValue != nil {
                 originDelta += (newValue! - origin!)
@@ -34,7 +34,7 @@ class GraphView: UIView {
     private var originDelta = CGPointZero
     
     @IBInspectable
-    private var scale: CGFloat = 50.0 {
+    var scale: CGFloat = 50.0 {
         didSet {
             self.setNeedsDisplay()
         }
