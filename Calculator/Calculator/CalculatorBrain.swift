@@ -51,7 +51,7 @@ class CalculatorBrain: Printable {
     
     typealias PropertyList = AnyObject
     
-    var program: AnyObject {
+    var program: PropertyList {
         get {
             return opStack.map { $0.description }
         }
@@ -64,8 +64,11 @@ class CalculatorBrain: Printable {
                         newOpStack.append(operation)
                     } else if let operand = NSNumberFormatter().numberFromString(opSymbol)?.doubleValue {
                         newOpStack.append(.Operand(operand))
+                    } else {
+                        newOpStack.append(.VariableOperand(opSymbol))
                     }
                 }
+                opStack = newOpStack
             }
         }
     }
@@ -239,7 +242,7 @@ class CalculatorBrain: Printable {
     }
     
     func evaluate() -> (result: Double?, error: String?) {
-        println("opStack: \(opStack)")
+        // println("opStack: \(opStack)")
         let (result, _, errorStr) = evaluate(opStack)
         return (result, errorStr)
     }

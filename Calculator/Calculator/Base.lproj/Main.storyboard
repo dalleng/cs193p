@@ -440,7 +440,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="f4E-7L-ed9"/>
                     <connections>
-                        <outlet property="graphView" destination="dAf-Fq-Zwd" id="u8y-Gr-Lt3"/>
+                        <outlet property="graphView" destination="dAf-Fq-Zwd" id="ELb-UV-w09"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KN7-g0-P4z" userLabel="First Responder" sceneMemberID="firstResponder"/>

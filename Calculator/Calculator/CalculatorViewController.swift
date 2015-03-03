@@ -128,5 +128,11 @@ class CalculatorViewController: UIViewController {
             println("\(brain)")
         }
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let graphViewController = segue.destinationViewController as? GraphViewController {
+            graphViewController.program = brain.program
+        }
+    }
 }
 

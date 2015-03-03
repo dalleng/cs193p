@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol GraphViewDataSource: class {
+    func yCoordinateForX(x: CGFloat) -> CGFloat?
+}
+
 @IBDesignable
 class GraphView: UIView {
     
     var axesDrawer = AxesDrawer()
+    weak var dataSource: GraphViewDataSource?
     
     private var origin: CGPoint? {
         didSet {
@@ -19,6 +24,7 @@ class GraphView: UIView {
         }
     }
     
+    @IBInspectable
     private var scale: CGFloat = 50.0 {
         didSet {
             self.setNeedsDisplay()
@@ -29,6 +35,25 @@ class GraphView: UIView {
         origin = origin ?? self.convertPoint(self.center, fromView: self.superview)
         axesDrawer.contentScaleFactor = self.contentScaleFactor
         axesDrawer.drawAxesInRect(self.bounds, origin: origin!, pointsPerUnit: scale)
+        plotFunction()
+    }
+    
+    private func plotFunction() {
+        let path = UIBezierPath()        
+        let maxWidthPixels = Int(self.bounds.width * self.contentScaleFactor)
+        
+        for var i = 0; i <= maxWidthPixels; i++ {
+            let x = (CGFloat(i) / self.contentScaleFactor - origin!.x) / scale
+            if let y = self.dataSource?.yCoordinateForX(x) {
+                println("x:\(x) y:\(y)")
+                var point = CGPointZero
+                point.x = CGFloat(i) / self.contentScaleFactor
+                point.y = origin!.y - (y * scale)
+                path.addLineToPoint(point)
+                path.moveToPoint(point)
+            }
+            path.stroke()
+        }
     }
     
     func changeOrigin(gesture: UITapGestureRecognizer) {
